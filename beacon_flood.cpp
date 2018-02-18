@@ -88,5 +88,5 @@ int main(int argc, char **argv)
 	config.set_rfmon(true);
 	Sniffer sniffer(interface, config);
 	sniffer.sniff_loop(callback);
-    return 0;
+	return 0;
 }
