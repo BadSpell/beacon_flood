@@ -28,8 +28,7 @@ void beacon_thread(int thread_idx, char *str_ssid)
 	for (int i = 1; ; i++)
 	{
 		printf("beacon_thread:: send ssid: %s (thread[%d] count=%d)\n", str_ssid, thread_idx, i);
-		try
-		{
+		try {
 			sender.send(radio, interface);
 		} catch (...) {
 			printf("beacon_thread:: exception accured at thread[%d]\n", thread_idx);
@@ -44,8 +43,7 @@ bool callback(const PDU &pdu)
 	const RadioTap &radio = pdu.rfind_pdu<RadioTap>();
 	const Dot11ProbeRequest &probe_req = pdu.rfind_pdu<Dot11ProbeRequest>();
 
-	try
-	{
+	try {
 		for (list<string>::iterator it = listssid.begin(); it != listssid.end(); it++)
 		{
 			cout << "callback:: request: " << probe_req.addr2() << " (ssid: " << *it << ")" << endl;
@@ -62,7 +60,6 @@ bool callback(const PDU &pdu)
 			PacketSender sender;
 			sender.send(radio, interface);
 		}
-
 	} catch (...) {
 		printf("callback:: exception accured\n");
 	}
@@ -86,8 +83,8 @@ int main(int argc, char **argv)
 		thread.detach();
 	}
 
-    SnifferConfiguration config;
-    config.set_promisc_mode(true);
+	SnifferConfiguration config;
+	config.set_promisc_mode(true);
 	config.set_rfmon(true);
 	Sniffer sniffer(interface, config);
 	sniffer.sniff_loop(callback);
